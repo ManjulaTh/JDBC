@@ -8,21 +8,25 @@ import java.util.Set;
 public class JDBCLauncher {
 
 	public static void main(String[] args) {
-		Person person = PersonDao.getById((long) 6);
+		//Person person = PersonDao.getById((long) 6);
 		
 		//person.setFirstname("First1");
 		//person.setLastname("Last1");
 		
 		//PersonDao.update(person);
-		Location newPersonLocation = new Location("City1","State1","Country1");//LocationDao.getById((long)3);
+		Location newPersonLocation = new Location("City2","State2","Country2");//LocationDao.getById((long)3);
 		
 		Set<Interest> newPersonInterests = new LinkedHashSet();
 		newPersonInterests.add(InterestDao.getById((long)6));
 		newPersonInterests.add(InterestDao.getById((long)3));
 		newPersonInterests.add(InterestDao.getById((long)2));
+		
+		
 		Person newPerson = new Person("First8","Last8",88,newPersonLocation,newPersonInterests);
 		
 		PersonDao.save(newPerson);
+		
+		
 		
 		
 		//To find people with similar Interest in same location enter interest id and location id

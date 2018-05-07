@@ -86,18 +86,34 @@ public class PersonDao {
 			Connection connection = getConnection();
 			Boolean match = false;
 			
+			
 			if (newPerson.getId() == null) {
 			
 				try {
 					connection.createStatement().executeUpdate("INSERT INTO person_interest.people (first_name,last_name,age) VALUES "
 							+ "('"+ newPerson.getFirstname()+"','"+ newPerson.getLastname()+"',"+newPerson.getAge()+")");
+					
+					//Updating Location
+					ResultSet result1 = connection.createStatement().executeQuery("SELECT id FROM person_interest.people WHERE first_name ='"
+							+newPerson.getFirstname()+"'AND last_name = '"+newPerson.getLastname()+"'AND age = "+ newPerson.getAge()+";");
+					result1.next();
+					int person_id = result1.getInt(1);
+					
 					LocationDao.save(newPerson.getLocation());
 					ResultSet result = connection.createStatement().executeQuery("SELECT id FROM person_interest.location WHERE city = '"+
 							newPerson.getLocation().getCity()+"' AND state = '"+newPerson.getLocation().getState()+"' AND country = '"+
 							newPerson.getLocation().getCountry()+"';") ;
 					result.next();
-					connection.createStatement().executeUpdate("UPDATE person_interest.people SET location_id = "+result.getInt(1)+"WHERE first_name ='"
-							+newPerson.getFirstname()+"'AND last_name = '"+newPerson.getLastname()+"'AND age = "+ newPerson.getAge()+";");
+					connection.createStatement().executeUpdate("UPDATE person_interest.people SET location_id = "+result.getInt(1)+"WHERE id ="
+							+person_id+";");
+					
+					//Updating Interest
+					Iterator<Interest> itr = newPerson.getInterests().iterator();
+					
+					while(itr.hasNext()) {
+						
+						connection.createStatement().executeUpdate("INSERT INTO person_interest.join_people_interest  (people_id,interest_id) VALUES ("+person_id+","+itr.next().getId()+");");
+					}
 					connection.close();
 				}catch(Exception e) {
 					System.out.println("Save failed");
