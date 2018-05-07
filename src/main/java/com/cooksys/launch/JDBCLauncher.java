@@ -2,6 +2,7 @@ package com.cooksys.launch;
 
 
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class JDBCLauncher {
@@ -13,27 +14,19 @@ public class JDBCLauncher {
 		//person.setLastname("Last1");
 		
 		//PersonDao.update(person);
+		Location newPersonLocation = new Location("City1","State1","Country1");//LocationDao.getById((long)3);
 		
-		//Person newPerson = new Person((long)9,"First8","Last8",88);
+		Set<Interest> newPersonInterests = new LinkedHashSet();
+		newPersonInterests.add(InterestDao.getById((long)6));
+		newPersonInterests.add(InterestDao.getById((long)3));
+		newPersonInterests.add(InterestDao.getById((long)2));
+		Person newPerson = new Person("First8","Last8",88,newPersonLocation,newPersonInterests);
 		
-		//PersonDao.save(newPerson);
+		PersonDao.save(newPerson);
 		
 		
 		//To find people with similar Interest in same location enter interest id and location id
 		
-		//		Interest
-
-		//		1 -"Swimming"
-		//		2 -"Tennis"
-		//		3 -"Reading"
-		//		4 -"Cooking"
-		//		5 -"Running"
-		//		6 -"Horse Riding"
-		
-		//Location
-		//"1"	"Memphis"	"Tennessee"	"USA"
-		//"2"	"Kansas City"	"Kansas"	"USA"
-		//"3"	"Oklahoma City"	"Oklahoma"	"USA"
 		
 		//Set peopleWithSameInterest = PersonDao.findInterestGroup(2, 1);
 		
@@ -52,6 +45,21 @@ public class JDBCLauncher {
 		//LocationDao.update(location);
 		//Location newLocation = new Location((long)5,"Oxford","Mississippi","USA");
 		//LocationDao.save(newLocation);
+		
+		
+		//Interest
+
+		//		1 -"Swimming"
+		//		2 -"Tennis"
+		//		3 -"Reading"
+		//		4 -"Cooking"
+		//		5 -"Running"
+		//		6 -"Horse Riding"
+		
+		//Location
+		//"1"	"Memphis"	"Tennessee"	"USA"
+		//"2"	"Kansas City"	"Kansas"	"USA"
+		//"3"	"Oklahoma City"	"Oklahoma"	"USA"
 	}
 
 	

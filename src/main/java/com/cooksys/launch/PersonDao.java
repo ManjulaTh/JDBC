@@ -91,7 +91,13 @@ public class PersonDao {
 				try {
 					connection.createStatement().executeUpdate("INSERT INTO person_interest.people (first_name,last_name,age) VALUES "
 							+ "('"+ newPerson.getFirstname()+"','"+ newPerson.getLastname()+"',"+newPerson.getAge()+")");
-					
+					LocationDao.save(newPerson.getLocation());
+					ResultSet result = connection.createStatement().executeQuery("SELECT id FROM person_interest.location WHERE city = '"+
+							newPerson.getLocation().getCity()+"' AND state = '"+newPerson.getLocation().getState()+"' AND country = '"+
+							newPerson.getLocation().getCountry()+"';") ;
+					result.next();
+					connection.createStatement().executeUpdate("UPDATE person_interest.people SET location_id = "+result.getInt(1)+"WHERE first_name ='"
+							+newPerson.getFirstname()+"'AND last_name = '"+newPerson.getLastname()+"'AND age = "+ newPerson.getAge()+";");
 					connection.close();
 				}catch(Exception e) {
 					System.out.println("Save failed");
