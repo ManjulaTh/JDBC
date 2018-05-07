@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PersonDao {
 	
@@ -20,10 +24,22 @@ public class PersonDao {
 
 			ResultSet result = statement.executeQuery("SELECT * FROM person_interest.people WHERE people.id = "+id);
 			result.next();
-			
-			person = new Person(result.getString(2),result.getString(3), result.getInt(4));
-			person.setId(result.getLong(1));
-			
+			System.out.println("Person"+result.getArray(6));
+			Set set = new HashSet(Arrays.asList(result.getArray(6)));
+			Set<Interest> resultSet = new LinkedHashSet<Interest>();
+			Iterator it = set.iterator();
+			while(it.hasNext()){
+				resultSet.add(new Interest(it.next().toString()));
+			}
+					
+			Set<Interest> set2compare =	InterestDao.getInterestsOfPerson(id);
+			Location location = LocationDao.getById(result.getLong(5));
+			if(!resultSet.removeAll(set2compare)) {
+				person = new Person(result.getString(2),result.getString(3), result.getInt(4),location,resultSet);
+				person.setId(result.getLong(1));
+			}else{
+				System.out.println("Error retreiving interests");
+			}
 			connection.close();
 			
 		}catch(Exception e) {
@@ -120,9 +136,7 @@ public class PersonDao {
 				person.setId((long)(result.getLong(1)));
 				person.setFirstname(result.getString(2));
 				person.setLastname(result.getString(3));
-				System.out.println(result.getLong(1));
-				System.out.println(result.getString(2));
-				System.out.println(result.getString(3));
+
 				people.add(person);
 				
 			}
@@ -133,4 +147,6 @@ public class PersonDao {
 		}
 		return people;
 	}
+	
+	
 }

@@ -1,11 +1,15 @@
 package com.cooksys.launch;
 
+import java.util.Set;
+
 public class Person {
 	
 	private Long id;
 	private String firstname;
 	private String lastname;
 	private Integer age;
+	private Location location;
+	private Set<Interest> interests;
 	
 	
 	public Person() {
@@ -24,6 +28,25 @@ public class Person {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.age = age;
+	}
+
+	
+	public Person(Long id, String firstname, String lastname, Integer age, Location location, Set<Interest> interests) {
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.age = age;
+		this.location = location;
+		this.interests = interests;
+	}
+
+
+	public Person(String firstname, String lastname, Integer age, Location location, Set<Interest> interests) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.age = age;
+		this.location = location;
+		this.interests = interests;
 	}
 
 
@@ -52,4 +75,25 @@ public class Person {
 		this.age = age;
 	}
 
+
+	public Location getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+
+	public Set<Interest> getInterests() {
+		return interests;
+	}
+
+
+	public void setInterests(Set<Interest> interests) {
+		this.interests = interests;
+	}
+
+	
 }

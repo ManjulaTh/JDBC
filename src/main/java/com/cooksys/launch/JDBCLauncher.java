@@ -7,7 +7,7 @@ import java.util.Set;
 public class JDBCLauncher {
 
 	public static void main(String[] args) {
-		//Person person = PersonDao.getById((long) 7);
+		Person person = PersonDao.getById((long) 6);
 		
 		//person.setFirstname("First1");
 		//person.setLastname("Last1");
@@ -50,8 +50,8 @@ public class JDBCLauncher {
 		//Location location = LocationDao.getById((long)3);
 		//location.setCity("Oklahoma-City");
 		//LocationDao.update(location);
-		Location newLocation = new Location((long)5,"Oxford","Mississippi","USA");
-		LocationDao.save(newLocation);
+		//Location newLocation = new Location((long)5,"Oxford","Mississippi","USA");
+		//LocationDao.save(newLocation);
 	}
 
 	

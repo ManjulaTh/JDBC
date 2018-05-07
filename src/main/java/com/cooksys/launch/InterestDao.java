@@ -3,6 +3,11 @@ package com.cooksys.launch;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class InterestDao {
 
@@ -97,5 +102,33 @@ public class InterestDao {
 		}
 		
 		return null;
+	}
+	
+	public static Set<Interest> getInterestsOfPerson(long id) {
+		
+		Connection connection = getConnection();
+		Set interests ;
+		Set<Interest> intSet = new HashSet<Interest>();
+		
+		try {
+			
+			//ResultSet result = connection.createStatement().executeQuery("SELECT * FROM person_interest.interest Where id ="+id);
+			ResultSet result = connection.createStatement().executeQuery("SELECT person_interest.groupedinterests("+id+")");
+			result.next();
+			System.out.println("Interest"+result.getArray(1));
+			
+			interests = new LinkedHashSet(Arrays.asList(result.getArray(1)));
+			Iterator i = interests.iterator();
+			while(i.hasNext()){
+				intSet.add(new Interest(i.next().toString()));
+			}
+			
+			connection.close();
+			
+		}catch(Exception e) {
+			System.out.println("GetInterest Query failed");
+			e.printStackTrace();
+		}
+		return intSet;
 	}
 }
